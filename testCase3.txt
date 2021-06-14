@@ -1,0 +1,26 @@
+/* this is comment for this sample code which add sums */
+
+%%
+    /* Declarations */
+    integer       i;
+    integer      max;
+    integer      sum;   
+
+    /* Statements */
+    sum = 0;
+    i = 1;
+    get (max);
+    while (i <  max)  
+    begin
+        sum = sum + i;
+        i  = i + 1; 
+    end
+    sum = sum + max;
+    put (sum);
+
+    //Prints out the sum.
+    std::cout << "The sum is: " << sum << endl;
+    std::cout << "Thank you for running this program." << endl;
+    
+    return 0;
+    %%

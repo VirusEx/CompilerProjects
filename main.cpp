@@ -7,11 +7,12 @@ using namespace std;
 
 
 //Function prototypes
-int lexer(string s);
+int DFSM(string s);
 template <class T>
-void printToken(int token, T lexeme);
+void printToken(int token, T lexeme, ofstream & outfile);
 int idFSM(string s);
 int intFSM(string s);
+void lexer(FILE * infile, ofstream & outfile);
 
 //Globle variables
 const char separators[] = {'(', ')', ';'};
@@ -19,170 +20,55 @@ const char op[] = {'=', '>', '<', '+', '-', '*'};
 const std::string keyword[] = {"if", "endif",  "else",  "put", "get", "while", "true",  "false", "boolean", "integer", "begin", "end"};
 
 int main (){
+    //Testcase 1
+    FILE * testcase1;
+    testcase1 = fopen("testcase1.txt","r");
+    ofstream output1("output1.txt"); 
+    lexer(testcase1, output1);
 
-    string lexeme; //To store lexeme, push c
-    char c = ' ';
-    string s = "";
-    int tokenNum;
+    //Testcase 2
+    FILE * testcase2;
+    testcase2 = fopen("testcase2.txt","r");
+    ofstream output2("output2.txt"); 
+    lexer(testcase2, output2);
 
-    //Reads the text file
-    FILE * infile;
-    infile = fopen("input.txt","r");
-    ofstream outfile("output.txt"); 
+    //Testcase 3
+    FILE * testcase3;
+    testcase3 = fopen("testcase3.txt","r");
+    ofstream output3("output3.txt"); 
+    lexer(testcase3, output3);
 
-    std::cout << "token\t\t\t\t\t\tlexeme" << std::endl;
-    std::cout << "-------------------------------------------------------------------------------" << std::endl;
-
-    if (infile==NULL){
-        std::cout << "Error opening input.txt";
-	}
-	else {
-        do {
-            c = getc (infile);
-
-            //If the char in c is not operators, separators, and not comments. Keep reading the next char and store into string s
-                s.push_back(c);
-            //Ignore newline
-            if (c == '\n' || c == '\r' || c == '\t'){
-                if(s.length()==1){
-                    s.clear();
-                }
-                else {
-                    s.pop_back();
-                    tokenNum = lexer(s);
-                    printToken(tokenNum,s);
-                    s.clear();
-                    }
-            }
-
-            //Ignore white space
-            if (c == ' '){
-                if (s.length()>1){
-                    s.pop_back();
-				    tokenNum = lexer(s);
-                    printToken(tokenNum,s);
-                }
-                //cout << "TokenNum:" << tokenNum << ". String:" << s;
-                s.clear();
-            }
-            
-            //Compares with the separators   four%%asd = four %%  asd
-            if (c=='%'){           
-                c = getc(infile);
-                
-				if (c == '%'){
-					s.pop_back();
-                    if(s.length()>0){
-                        tokenNum = lexer(s);
-                        printToken(tokenNum,s);
-                        s.clear();
-                    }
-                    printToken(3,"%%");
-                }
-                else {
-                    ungetc(c, infile);
-                    }
-            }
-            for (auto it: separators){
-                if (c == it){
-                    s.pop_back();
-					if(s.length()>0){
-                        tokenNum = lexer(s);
-                        printToken(tokenNum,s);
-                        s.clear();
-                    }
-                    printToken(3, it);
-				}
-            }
     
-            //delete comments             
-            if (c=='/'){
-                c = getc(infile);
-				if (c == '*')
-                {
-                    s.clear();
-                    loopagain:
-                    do {
-                        c = getc(infile);
-                    } while(c!='*');
-                    c = getc(infile);
-                    if (c == '/'){
-                        c = getc(infile);
-                        goto endComment;
-                    }
-                    else
-						goto loopagain;
-				}
-                else if (c == '='){
-                    printToken(4,"/=");
-				}
-                else {
-                    printToken(4, '/');
-                }
-            }
-            endComment:
-
-            //Compares with operators
-            for (auto it: op){
-                if (c == it){
-                    tokenNum = lexer(s);
-                    s.clear();
-                    printToken(4, it);
-				}
-            }
-
-
-           
-				//std::cout << c << ',';
-
-				/*if (find / ){
-                if (find =){ /= is op}
-                else if (find *){ /* is commented}; -> we read until we find ;
-                }*/
-
-				//Compare with the integers
-
-				//Compare with the keywords if it is a identifier
-				/*for (auto it: keyword){
-                if (c == it){
-                    printToken(5, it);
-                }
-            }*/
-
-
-        } while (c != EOF);
-        
-    }
     return 0;
 }
 
 template <class T>
-void printToken(int token, T lexeme){
+void printToken(int token, T lexeme, ofstream & outfile){
     switch (token){
         case 1:
-        std::cout << "identifier\t\t\t\t\t"  << lexeme << std::endl;
+        outfile << "identifier\t\t\t\t\t"  << lexeme << std::endl;
         break;
         case 2:
-        std::cout << "integer\t\t\t\t\t\t"     << lexeme << std::endl;
+        outfile << "integer\t\t\t\t\t\t"     << lexeme << std::endl;
         break;
         case 3:
-        std::cout << "separator\t\t\t\t\t"   << lexeme << std::endl;
+        outfile << "separator\t\t\t\t\t"   << lexeme << std::endl;
         break;
         case 4:
-        std::cout << "operator\t\t\t\t\t"    << lexeme << std::endl;
+        outfile << "operator\t\t\t\t\t"    << lexeme << std::endl;
         break;
         case 5:
-        std::cout << "keyword\t\t\t\t\t\t"     << lexeme << std::endl;
+        outfile << "keyword\t\t\t\t\t\t"     << lexeme << std::endl;
         break;
         case 6:
-        std::cout << "unknown\t\t\t\t\t\t"     << lexeme << std::endl;
+        outfile << "unknown\t\t\t\t\t\t"     << lexeme << std::endl;
         break;
         default:
-        std::cout << "Error" << lexeme << std::endl;
+        outfile << "Error" << lexeme << std::endl;
     }
 }
 
-int lexer(string s){
+int DFSM(string s){
 
 
     // FSM for id
@@ -245,24 +131,115 @@ int intFSM(string s){
     return 0;
 }
 
+void lexer(FILE * infile, ofstream & outfile){
+    string lexeme; //To store lexeme, push c
+    char c = ' ';
+    string s = "";
+    int tokenNum;
+
+    
+    outfile << "token\t\t\t\t\t\tlexeme" << std::endl;
+    outfile << "-------------------------------------------------------------------------------" << std::endl;
 
 
+    if (infile==NULL){
+        outfile << "Error opening input.txt";
+	}
+	else {
+        do {
+            c = getc (infile);
 
-/* Test cases
+            //If the char in c is not operators, separators, and not comments. Keep reading the next char and store into string s
+                s.push_back(c);
+            //Ignore newline
+            if (c == '\n' || c == '\r' || c == '\t'){
+                if(s.length()==1){
+                    s.clear();
+                }
+                else {
+                    s.pop_back();
+                    tokenNum = DFSM(s);
+                    printToken(tokenNum,s,outfile);
+                    s.clear();
+                    }
+            }
 
-* * * *
-integer123
-/ * * /
-/* * * / /* 
+            //Ignore white space
+            if (c == ' '){
+                if (s.length()>1){
+                    s.pop_back();
+				    tokenNum = DFSM(s);
+                    printToken(tokenNum,s,outfile);
+                }
+                //cout << "TokenNum:" << tokenNum << ". String:" << s;
+                s.clear();
+            }
+            
+            //Compares with the separators   four%%asd = four %%  asd
+            if (c=='%'){           
+                c = getc(infile);
+                
+				if (c == '%'){
+					s.pop_back();
+                    if(s.length()>0){
+                        tokenNum = DFSM(s);
+                        printToken(tokenNum,s,outfile);
+                        s.clear();
+                    }
+                    printToken(3,"%%",outfile);
+                }
+                else {
+                    ungetc(c, infile);
+                    }
+            }
+            for (auto it: separators){
+                if (c == it){
+                    s.pop_back();
+					if(s.length()>0){
+                        tokenNum = DFSM(s);
+                        printToken(tokenNum,s,outfile);
+                        s.clear();
+                    }
+                    printToken(3, it,outfile);
+				}
+            }
+    
+            //delete comments             
+            if (c=='/'){
+                c = getc(infile);
+				if (c == '*')
+                {
+                    s.clear();
+                    loopagain:
+                    do {
+                        c = getc(infile);
+                    } while(c!='*');
+                    c = getc(infile);
+                    if (c == '/'){
+                        c = getc(infile);
+                        goto endComment;
+                    }
+                    else
+						goto loopagain;
+				}
+                else if (c == '='){
+                    printToken(4,"/=",outfile);
+				}
+                else {
+                    printToken(4, '/',outfile);
+                }
+            }
+            endComment:
 
-/=      => one op 
-/  =    => two op
-$       => --unknown
-12t2    => unknown
+            //Compares with operators
+            for (auto it: op){
+                if (c == it){
+                    tokenNum = DFSM(s);
+                    s.clear();
+                    printToken(4, it,outfile);
+				}
+            }
 
-
-123inte
-
-
-
-*/
+        } while (c != EOF);
+    }
+}

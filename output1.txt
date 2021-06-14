@@ -1,0 +1,12 @@
+token						lexeme
+-------------------------------------------------------------------------------
+keyword						while
+separator					(
+identifier					fahr
+operator					<
+identifier					upper
+separator					)
+identifier					a
+operator					=
+integer						23
+separator					;

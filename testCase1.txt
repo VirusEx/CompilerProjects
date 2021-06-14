@@ -1,11 +1,2 @@
-//um i think ; ^ ;
-
-Checks for expected input
-
-std::string expectedInput;
-std::getline(std::cin, expectedInput);
- 
-if (expectedInput == "integer123")
-  continue;
-else
-  break;
+/* loop statement */
+while  (fahr  < upper)   a = 23;
