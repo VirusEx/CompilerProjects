@@ -31,14 +31,16 @@ int main(){
     testcase1 = fopen("testcase2.txt","r");
     ofstream output2("output2-new.txt"); 
     while(!feof(testcase2)){
-    lexer(testcase2, output2);
+        lexer(testcase2, output2);
+    }
 
     //Testcase 3
     FILE * testcase3;
     testcase1 = fopen("testcase3.txt","r");
     ofstream output3("output3-new.txt"); 
     while(!feof(testcase3)){
-    lexer(testcase3, output3);
+        lexer(testcase3, output3);
+    }
 
     
     return 0;
