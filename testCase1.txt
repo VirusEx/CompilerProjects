@@ -1,2 +1,5 @@
 /* loop statement */
-while  (fahr  < upper)   a = 23;
+while  (fahr  < upper)   a == 23;
+
+This is line 4;
+Five;

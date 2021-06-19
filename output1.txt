@@ -1,12 +1,17 @@
-token						lexeme
--------------------------------------------------------------------------------
-keyword						while
+integer						while
 separator					(
-identifier					fahr
+integer						fahr
 operator					<
-identifier					upper
+integer						upper
 separator					)
-identifier					a
-operator					=
-integer						23
+integer						a
+operator					==
+identifier					23
+separator					;
+integer						This
+integer						is
+integer						line
+identifier					4
+separator					;
+integer						Five
 separator					;
