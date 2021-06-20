@@ -204,7 +204,7 @@ void lexer(FILE * infile, ofstream & outfile){
 				}
             }
     
-            //delete comments             
+            //Delete comments             
             if (c=='/'){
                 c = getc(infile);
 				if (c == '*')

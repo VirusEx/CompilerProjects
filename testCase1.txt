@@ -1,5 +1,11 @@
 /* loop statement */
-while  (fahr  < upper)   a == 23;
+while  (fahr  < upper) abc123 bcd0}{} a == 23;
+?123;
 
-This is line 4;
-Five;
+// This is to test //
+a = 1;
+b == 2;
+c === 3;
+
+This is line 9;
+Ten;
