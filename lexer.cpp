@@ -108,13 +108,19 @@ std::pair<int, string> lexer(FILE* infile){
         //idFSM
         if(isalpha(c)){
             std:pair<int, string> result = idFSM(c, infile);
+            for (auto it: keyword){
+                if (it == result.second){
+					return std::pair<int, string>(5, result.second);
+                }
+            }
+
             return result;
         }
         s.push_back(c);
         if (c < 33){
-			return std::pair<int, string>(0,to_string(c));
+			return std::pair<int, string>(0, to_string(char(c)));
         }
-        return std::pair<int, string>(6, s);
+		return std::pair<int, string>(6, s);
     }
     return std::pair<int, string>(0,"");
 }

@@ -1,26 +1,35 @@
-/* this is comment for this sample code which add sums */
+/*This program identifies which value between two number is bigger by outputting a true or 
+false statement. The program also performs basic subtraction.*/
 
 %%
-    /* Declarations */
-    integer       i;
-    integer      max;
-    integer      sum;   
+integer a;
+integer b;
+a = 20;
+b = 10;
+boolean result;
+result = true;
+result = false;
 
-    /* Statements */
-    sum = 0;
-    i = 1;
-    get (max);
-    while (i <  max)  
-    begin
-        sum = sum + i;
-        i  = i + 1; 
-    end
-    sum = sum + max;
-    put (sum);
+if (a > b)
+    result = false;
+else
+    result = true;
+%%
 
-    //Prints out the sum.
-    std::cout << "The sum is: " << sum << endl;
-    std::cout << "Thank you for running this program." << endl;
-    
-    return 0;
-    %%
+%%
+integer c;
+integer d;
+integer e;
+c = 10;
+d = 15;
+e = 5;
+boolean result_;
+result_ = true;
+result_ = false;
+
+if (d - c == e)
+	result_ = true;
+else
+	result_ = false;
+put();
+%%

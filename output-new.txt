@@ -1,0 +1,30 @@
+Rat21SU
+Token:separator					Lexeme:%%
+Qualifier
+	<Qualifier> ::=  integer |  boolean
+Token:keyword					Lexeme:integer
+Token:identifier				Lexeme:a
+	<Declaration> ::=   <Qualifier >  <identifier>
+Token:separator					Lexeme:;
+Token:identifier				Lexeme:a
+Assign2
+Token:operator					Lexeme:=
+Token:integer					Lexeme:5
+	<Primary> ::=      <Identifier>  |  <Integer>  |  ( <Expression> )   |  true   |  false  
+	<Factor> ::=      -  <Primary>    |    <Primary>
+	<Term>’ ::= *  <Factor> <Term>’  |   /  <Factor> <Term>’ | <Empty>
+	<Term> ::= <Factor><Term>’
+	<Expression>’ ::=   + <Term><Expression>’|   - <Term><Expression>’
+	<Expression> ::= <Term><Expression>’
+Token:separator					Lexeme:;
+	<Assign> ::=     <Identifier> = <Expression>;
+	<Statement> ::=   <Compound>  |  <Assign>  |   <If>  |  <Get>   |   <Put>   |  <While> 
+6 |	Syntax error. Expecting 'begin|identifier|if|put|get|while'. 
+Token	%%
+	<Statement List> ::=   <Statement>   | <Statement> <Statement List>
+	<BackTraceStatementList> ::= <Statement List> | <Empty>
+	<Declaration List>  ::= <Declaration> ;     |      <Declaration> ; <Declaration List>
+	<Opt Declaration List> ::= <Declaration List>   |    <Empty>
+6 |	Syntax error. Expecting 'begin|identifier|if|put|get|while'. 
+Token	%%
+Syntax error. No Statement List
