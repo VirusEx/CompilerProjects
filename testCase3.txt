@@ -4,32 +4,31 @@ false statement. The program also performs basic subtraction.*/
 %%
 integer a;
 integer b;
+integer c;
+integer d;
+integer e;
+boolean result;
+boolean result2;
 a = 20;
 b = 10;
-boolean result;
+c = 10;
+d = 15;
+e = 5;
+
 result = true;
 result = false;
+result2 = true;
+result2 = false;
 
 if (a > b)
     result = false;
 else
     result = true;
-%%
-
-%%
-integer c;
-integer d;
-integer e;
-c = 10;
-d = 15;
-e = 5;
-boolean result_;
-result_ = true;
-result_ = false;
+endif
 
 if (d - c == e)
-	result_ = true;
+	result2 = true;
 else
-	result_ = false;
-put();
+	result2 = false;
+endif
 %%

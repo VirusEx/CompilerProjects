@@ -1,0 +1,171 @@
+	<Rat21SU>  ::=   %%  <Opt Declaration List>    <Statement List>  %%
+Token:separator					Lexeme:%%
+	<Opt Declaration List> ::= <Declaration List>   |    <Empty>
+	<Declaration List>  ::= <Declaration> ;     |      <Declaration> ; <Declaration List>
+	<Declaration> ::=   <Qualifier >  <identifier>
+	<Qualifier> ::=  integer |  boolean
+Token:keyword					Lexeme:integer
+Token:identifier				Lexeme:i
+Token:separator					Lexeme:;
+	<BackTraceDeclarationList> ::= <declaration List> | <Empty>
+	<Declaration List>  ::= <Declaration> ;     |      <Declaration> ; <Declaration List>
+	<Declaration> ::=   <Qualifier >  <identifier>
+	<Qualifier> ::=  integer |  boolean
+Token:keyword					Lexeme:integer
+Token:identifier				Lexeme:max
+Token:separator					Lexeme:;
+	<BackTraceDeclarationList> ::= <declaration List> | <Empty>
+	<Declaration List>  ::= <Declaration> ;     |      <Declaration> ; <Declaration List>
+	<Declaration> ::=   <Qualifier >  <identifier>
+	<Qualifier> ::=  integer |  boolean
+Token:keyword					Lexeme:integer
+Token:identifier				Lexeme:sum
+Token:separator					Lexeme:;
+	<BackTraceDeclarationList> ::= <declaration List> | <Empty>
+	<Statement List> ::=   <Statement>   | <Statement> <Statement List>
+	<Statement> ::=   <Compound>  |  <Assign>  |   <If>  |  <Get>   |   <Put>   |  <While> 
+	<Compound> ::=   begin <Statement List>  end
+	<Assign> ::=     <Identifier> = <Expression>;
+Token:identifier				Lexeme:sum
+Token:operator					Lexeme:=
+	<Expression> ::= <Term><Expression>’
+	<Term> ::= <Factor><Term>’
+	<Factor> ::=      -  <Primary>    |    <Primary>
+	<Primary> ::=      <Identifier>  |  <Integer>  |  ( <Expression> )   |  true   |  false  
+Token:integer					Lexeme:0
+	<Term>’ ::= *  <Factor> <Term>’  |   /  <Factor> <Term>’ | <Empty>
+	<Expression>’ ::=   + <Term><Expression>’|   - <Term><Expression>’
+Token:separator					Lexeme:;
+	<If> ::= if ( <Condition> ) <Statement >[elseState] endif
+	<Get> ::=    get ( <Identifier> );
+	<Put> ::=    put ( <Identifier> );
+	<While> ::=  while ( <Condition>  )  <Statement>  
+	<BackTraceStatementList> ::= <Statement List> | <Empty>
+	<Statement List> ::=   <Statement>   | <Statement> <Statement List>
+	<Statement> ::=   <Compound>  |  <Assign>  |   <If>  |  <Get>   |   <Put>   |  <While> 
+	<Compound> ::=   begin <Statement List>  end
+	<Assign> ::=     <Identifier> = <Expression>;
+Token:identifier				Lexeme:i
+Token:operator					Lexeme:=
+	<Expression> ::= <Term><Expression>’
+	<Term> ::= <Factor><Term>’
+	<Factor> ::=      -  <Primary>    |    <Primary>
+	<Primary> ::=      <Identifier>  |  <Integer>  |  ( <Expression> )   |  true   |  false  
+Token:integer					Lexeme:1
+	<Term>’ ::= *  <Factor> <Term>’  |   /  <Factor> <Term>’ | <Empty>
+	<Expression>’ ::=   + <Term><Expression>’|   - <Term><Expression>’
+Token:separator					Lexeme:;
+	<If> ::= if ( <Condition> ) <Statement >[elseState] endif
+	<Get> ::=    get ( <Identifier> );
+Token:keyword					Lexeme:get
+Token:separator					Lexeme:(
+Token:identifier				Lexeme:max
+Token:separator					Lexeme:)
+Token:separator					Lexeme:;
+	<Put> ::=    put ( <Identifier> );
+	<While> ::=  while ( <Condition>  )  <Statement>  
+Token:keyword					Lexeme:while
+Token:separator					Lexeme:(
+	<Condition> ::=     <Expression>  <Relop>   <Expression>
+	<Expression> ::= <Term><Expression>’
+	<Term> ::= <Factor><Term>’
+	<Factor> ::=      -  <Primary>    |    <Primary>
+	<Primary> ::=      <Identifier>  |  <Integer>  |  ( <Expression> )   |  true   |  false  
+Token:identifier				Lexeme:i
+	<Term>’ ::= *  <Factor> <Term>’  |   /  <Factor> <Term>’ | <Empty>
+	<Expression>’ ::=   + <Term><Expression>’|   - <Term><Expression>’
+	<Relop> ::=        ==     |    >     |    <     |    /=
+Token:operator					Lexeme:<
+	<Expression> ::= <Term><Expression>’
+	<Term> ::= <Factor><Term>’
+	<Factor> ::=      -  <Primary>    |    <Primary>
+	<Primary> ::=      <Identifier>  |  <Integer>  |  ( <Expression> )   |  true   |  false  
+Token:identifier				Lexeme:max
+	<Term>’ ::= *  <Factor> <Term>’  |   /  <Factor> <Term>’ | <Empty>
+	<Expression>’ ::=   + <Term><Expression>’|   - <Term><Expression>’
+Token:separator					Lexeme:)
+	<Statement> ::=   <Compound>  |  <Assign>  |   <If>  |  <Get>   |   <Put>   |  <While> 
+	<Compound> ::=   begin <Statement List>  end
+Token:keyword					Lexeme:begin
+	<Statement List> ::=   <Statement>   | <Statement> <Statement List>
+	<Statement> ::=   <Compound>  |  <Assign>  |   <If>  |  <Get>   |   <Put>   |  <While> 
+	<Compound> ::=   begin <Statement List>  end
+	<Assign> ::=     <Identifier> = <Expression>;
+Token:identifier				Lexeme:sum
+Token:operator					Lexeme:=
+	<Expression> ::= <Term><Expression>’
+	<Term> ::= <Factor><Term>’
+	<Factor> ::=      -  <Primary>    |    <Primary>
+	<Primary> ::=      <Identifier>  |  <Integer>  |  ( <Expression> )   |  true   |  false  
+Token:identifier				Lexeme:sum
+	<Term>’ ::= *  <Factor> <Term>’  |   /  <Factor> <Term>’ | <Empty>
+	<Expression>’ ::=   + <Term><Expression>’|   - <Term><Expression>’
+Token:operator					Lexeme:+
+	<Term> ::= <Factor><Term>’
+	<Factor> ::=      -  <Primary>    |    <Primary>
+	<Primary> ::=      <Identifier>  |  <Integer>  |  ( <Expression> )   |  true   |  false  
+Token:identifier				Lexeme:i
+	<Term>’ ::= *  <Factor> <Term>’  |   /  <Factor> <Term>’ | <Empty>
+	<Expression>’ ::=   + <Term><Expression>’|   - <Term><Expression>’
+Token:separator					Lexeme:;
+	<If> ::= if ( <Condition> ) <Statement >[elseState] endif
+	<Get> ::=    get ( <Identifier> );
+	<Put> ::=    put ( <Identifier> );
+	<While> ::=  while ( <Condition>  )  <Statement>  
+	<BackTraceStatementList> ::= <Statement List> | <Empty>
+	<Statement List> ::=   <Statement>   | <Statement> <Statement List>
+	<Statement> ::=   <Compound>  |  <Assign>  |   <If>  |  <Get>   |   <Put>   |  <While> 
+	<Compound> ::=   begin <Statement List>  end
+	<Assign> ::=     <Identifier> = <Expression>;
+Token:identifier				Lexeme:i
+Token:operator					Lexeme:=
+	<Expression> ::= <Term><Expression>’
+	<Term> ::= <Factor><Term>’
+	<Factor> ::=      -  <Primary>    |    <Primary>
+	<Primary> ::=      <Identifier>  |  <Integer>  |  ( <Expression> )   |  true   |  false  
+Token:identifier				Lexeme:i
+	<Term>’ ::= *  <Factor> <Term>’  |   /  <Factor> <Term>’ | <Empty>
+	<Expression>’ ::=   + <Term><Expression>’|   - <Term><Expression>’
+Token:operator					Lexeme:+
+	<Term> ::= <Factor><Term>’
+	<Factor> ::=      -  <Primary>    |    <Primary>
+	<Primary> ::=      <Identifier>  |  <Integer>  |  ( <Expression> )   |  true   |  false  
+Token:integer					Lexeme:1
+	<Term>’ ::= *  <Factor> <Term>’  |   /  <Factor> <Term>’ | <Empty>
+	<Expression>’ ::=   + <Term><Expression>’|   - <Term><Expression>’
+Token:separator					Lexeme:;
+	<If> ::= if ( <Condition> ) <Statement >[elseState] endif
+	<Get> ::=    get ( <Identifier> );
+	<Put> ::=    put ( <Identifier> );
+	<While> ::=  while ( <Condition>  )  <Statement>  
+	<BackTraceStatementList> ::= <Statement List> | <Empty>
+Token:keyword					Lexeme:end
+	<Assign> ::=     <Identifier> = <Expression>;
+Token:identifier				Lexeme:sum
+Token:operator					Lexeme:=
+	<Expression> ::= <Term><Expression>’
+	<Term> ::= <Factor><Term>’
+	<Factor> ::=      -  <Primary>    |    <Primary>
+	<Primary> ::=      <Identifier>  |  <Integer>  |  ( <Expression> )   |  true   |  false  
+Token:identifier				Lexeme:sum
+	<Term>’ ::= *  <Factor> <Term>’  |   /  <Factor> <Term>’ | <Empty>
+	<Expression>’ ::=   + <Term><Expression>’|   - <Term><Expression>’
+Token:operator					Lexeme:+
+	<Term> ::= <Factor><Term>’
+	<Factor> ::=      -  <Primary>    |    <Primary>
+	<Primary> ::=      <Identifier>  |  <Integer>  |  ( <Expression> )   |  true   |  false  
+Token:identifier				Lexeme:max
+	<Term>’ ::= *  <Factor> <Term>’  |   /  <Factor> <Term>’ | <Empty>
+	<Expression>’ ::=   + <Term><Expression>’|   - <Term><Expression>’
+Token:separator					Lexeme:;
+	<If> ::= if ( <Condition> ) <Statement >[elseState] endif
+	<Get> ::=    get ( <Identifier> );
+	<Put> ::=    put ( <Identifier> );
+Token:keyword					Lexeme:put
+Token:separator					Lexeme:(
+Token:identifier				Lexeme:sum
+Token:separator					Lexeme:)
+Token:separator					Lexeme:;
+	<While> ::=  while ( <Condition>  )  <Statement>  
+	<BackTraceStatementList> ::= <Statement List> | <Empty>
+Token:separator					Lexeme:%%
