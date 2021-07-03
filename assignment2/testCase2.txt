@@ -1,0 +1,7 @@
+/*This program identifies which value between two number is bigger by outputting a true or 
+false statement. */
+
+%%
+integer a;
+a = 5;
+%%

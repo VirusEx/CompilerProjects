@@ -1,0 +1,14 @@
+Token:separator					Lexeme:%%
+Token:keyword					Lexeme:integer
+Token:identifier				Lexeme:i
+Token:separator					Lexeme:;
+Token:keyword					Lexeme:integer
+Token:identifier				Lexeme:max
+Token:separator					Lexeme:;
+Token:keyword					Lexeme:integer
+Token:identifier				Lexeme:sum
+Token:separator					Lexeme:;
+Token:identifier				Lexeme:sum
+Token:operator					Lexeme:=
+Token:integer					Lexeme:0
+Error: Identifier is not declared
