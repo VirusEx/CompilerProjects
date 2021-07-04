@@ -1,0 +1,53 @@
+-------------------Instruction Table---------------------
+address             Op                  Oprnd               
+1                   PUSHI               20                  
+2                   POPM                10000               
+3                   PUSHI               10                  
+4                   POPM                10001               
+5                   PUSHI               10                  
+6                   POPM                10002               
+7                   PUSHI               15                  
+8                   POPM                10003               
+9                   PUSHI               5                   
+10                  POPM                10004               
+11                  PUSHI               1                   
+12                  POPM                10005               
+13                  PUSHI               0                   
+14                  POPM                10005               
+15                  PUSHI               1                   
+16                  POPM                10006               
+17                  PUSHI               0                   
+18                  POPM                10006               
+19                  PUSHM               10000               
+20                  PUSHM               10001               
+21                  GRT                                     
+22                  JUMPZ               27                  
+23                  PUSHI               0                   
+24                  POPM                10005               
+25                  PUSHI               1                   
+26                  POPM                10005               
+27                  PUSHM               10003               
+28                  PUSHM               10002               
+29                  ADD                                     
+30                  PUSHM               10004               
+31                  EQU                                     
+32                  JUMPZ               37                  
+33                  PUSHI               1                   
+34                  POPM                10006               
+35                  PUSHI               0                   
+36                  POPM                10006               
+
+
+
+-------------------Symbol Table--------------------------
+Identifier          Memory Location     Type                
+a                   10000               integer             
+b                   10001               integer             
+c                   10002               integer             
+d                   10003               integer             
+e                   10004               integer             
+result              10005               boolean             
+result2             10006               boolean             
+
+
+

@@ -1,0 +1,13 @@
+-------------------Instruction Table---------------------
+address             Op                  Oprnd               
+1                   PUSHI               5                   
+2                   POPM                10000               
+
+
+
+-------------------Symbol Table--------------------------
+Identifier          Memory Location     Type                
+a                   10000               integer             
+
+
+

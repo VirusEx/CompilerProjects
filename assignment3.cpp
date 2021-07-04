@@ -15,6 +15,9 @@ std::stack<int> jumpstack;
 std::pair<int, string> OP;
 int relop_case;
 int numOfSymbol = 1;
+int valueType =10;
+std::pair<int, string>tempToken;
+int whileAddr;
 
 // function prototypes
 template <class T>
@@ -25,7 +28,7 @@ void OptDeclarationList (FILE* infile, ofstream& outfile);
 void DeclarationList (FILE* infile, ofstream& outfile);
 void BackTraceDeclarationList(FILE* infile, ofstream& outfile);
 void Declaration(FILE* infile, ofstream& outfile);
-void Qualifier(FILE* infile, ofstream& outfile);
+string Qualifier(FILE* infile, ofstream& outfile);
 void StatementList(FILE* infile, ofstream& outfile);
 void BackTraceStatementList(FILE* infile, ofstream& outfile);
 void Statement(FILE* infile, ofstream& outfile);
@@ -45,7 +48,8 @@ void TermPrime(FILE* infile, ofstream& outfile);
 void Factor(FILE* infile, ofstream& outfile);
 void Primary(FILE* infile, ofstream& outfile);
 void gen_instr(string op, string oprnd);
-void add_symbol(std::pair<int, string> t, ofstream& outfile);
+int find_type(std::pair<int, string> t);
+void add_symbol(std::pair<int, string> t, string type, ofstream& outfile);
 string get_address(std::pair<int, string> t, ofstream& outfile);
 void print_symbolTable(ofstream& outfile);
 void print_instrTable(ofstream& outfile);
@@ -56,7 +60,15 @@ int main(){
     // testcases
     FILE * testcase1;
     testcase1 = fopen("testcase1.txt","r");
-    ofstream output1("newOUTPUT.txt"); 
+    ofstream output1("A3-output1.txt"); 
+
+    FILE * testcase2;
+    testcase2 = fopen("testcase2.txt","r");
+    ofstream output2("A3-output2.txt"); 
+
+    FILE * testcase3;
+    testcase3 = fopen("testcase3.txt","r");
+    ofstream output3("A3-output3.txt"); 
 
     INSTR_TABLE[0][0] = "address";
     INSTR_TABLE[0][1] = "Op";
@@ -65,32 +77,25 @@ int main(){
     Symbol_table[0][0] = "Identifier";
     Symbol_table[0][1] = "Memory Location";
     Symbol_table[0][2] = "Type";
-
-    
-
-    // FILE * testcase2;
-    // testcase2 = fopen("testcase2.txt","r");
-    // ofstream output2("A2-output2.txt"); 
-
-    // FILE * testcase3;
-    // testcase3 = fopen("testcase3.txt","r");
-    // ofstream output3("A2-output3.txt"); 
     
     Rat21SU(testcase1, output1);
-	// lineCount = 1;
-	// Rat21SU(testcase2, output2);
-    // lineCount = 1;
-    // Rat21SU(testcase3, output3);
-
-
-
-    // for (int i=0; i<sizeof(Symbol_table); i++){
-    //     for (int j=0; j<sizeof(i); j++){
-    //         std::cout << Symbol_table[i][j] << "\t";
-    //     }
-    //     std::cout << std::endl;
-    // }
-
+    lineCount = 1;
+    Instr_address = 1;
+    memory_address = 10000;
+    numOfSymbol = 1;
+    valueType =10;
+    Rat21SU(testcase2, output2);
+    lineCount = 1;
+    Instr_address = 1;
+    memory_address = 10000;
+    numOfSymbol = 1;
+    valueType =10;
+    Rat21SU(testcase3, output3);
+    lineCount = 1;
+    Instr_address = 1;
+    memory_address = 10000;
+    numOfSymbol = 1;
+    valueType = 10;
     
 
 	return 0;
@@ -98,30 +103,30 @@ int main(){
 
 template <class T>
 void printLexeme(int i, T lexeme, ofstream& outfile){
-    switch (i){
-        case 0:
-        break;
-        case 1:
-        outfile <<"Token:identifier\t\t\t\tLexeme:"  << lexeme  <<std::endl;
-        break;
-        case 2:
-        outfile << "Token:integer\t\t\t\t\tLexeme:"     << lexeme <<std::endl;
-        break;
-        case 3:
-        outfile <<"Token:separator\t\t\t\t\tLexeme:"   << lexeme << std::endl;
-        break;
-        case 4:
-        outfile <<"Token:operator\t\t\t\t\tLexeme:"    << lexeme<< std::endl;
-        break;
-        case 5:
-        outfile <<"Token:keyword\t\t\t\t\tLexeme:"     << lexeme << std::endl;
-        break;
-        case 6:
-        outfile <<"Token:unknown\t\t\t\t\tLexeme:"     << lexeme << std::endl;
-        break;
-        default:
-        outfile << "Error" << lexeme << std::endl;
-    }
+    //switch (i){
+    //    case 0:
+    //    break;
+    //    case 1:
+    //    outfile <<"Token:identifier\t\t\t\tLexeme:"  << lexeme  <<std::endl;
+    //    break;
+    //    case 2:
+    //    outfile << "Token:integer\t\t\t\t\tLexeme:"     << lexeme <<std::endl;
+    //    break;
+    //    case 3:
+    //    outfile <<"Token:separator\t\t\t\t\tLexeme:"   << lexeme << std::endl;
+    //    break;
+    //    case 4:
+    //    outfile <<"Token:operator\t\t\t\t\tLexeme:"    << lexeme<< std::endl;
+    //    break;
+    //    case 5:
+    //    outfile <<"Token:keyword\t\t\t\t\tLexeme:"     << lexeme << std::endl;
+    //    break;
+    //    case 6:
+    //    outfile <<"Token:unknown\t\t\t\t\tLexeme:"     << lexeme << std::endl;
+    //    break;
+    //    default:
+    //    outfile << "Error" << lexeme << std::endl;
+    //}
 }
 
 
@@ -165,11 +170,8 @@ void Rat21SU (FILE* infile, ofstream& outfile){
         outfile << "Syntax error. Out of scope." << endl;
         std::exit(1);
     }
-
-    print_symbolTable(outfile);
-
     print_instrTable(outfile);
-    
+    print_symbolTable(outfile);
 
 }
 
@@ -215,12 +217,12 @@ void Declaration(FILE* infile, ofstream& outfile){
     if (outputSwitch){
         outfile << "\t<Declaration> ::=   <Qualifier >  <identifier>" << endl;
     }
-    Qualifier(infile, outfile);
+    string type = Qualifier(infile, outfile);
     if(token.first!=1){
         outfile << lineCount <<" |\tSyntax error. Expecting an idenifier. \nToken\t" << token.second << endl;
         std::exit(1);
     }
-    add_symbol(token,outfile);
+    add_symbol(token, type, outfile);
 
     printLexeme(token.first, token.second, outfile);
     token = getToken(infile);
@@ -229,13 +231,18 @@ void Declaration(FILE* infile, ofstream& outfile){
 }
 
 
-void Qualifier(FILE* infile, ofstream& outfile){
+string Qualifier(FILE* infile, ofstream& outfile){
     if (outputSwitch){
         outfile << "\t<Qualifier> ::=  integer |  boolean" << endl;
     }
-
-    if(token.second == "integer" || token.second == "boolean"){
-        
+	string type = "Error Type from Qualifier";
+	if(token.second == "integer" || token.second == "boolean"){
+        if(token.second == "integer"){
+            type = "integer";
+        }
+        else if(token.second == "boolean"){
+            type = "boolean";
+        }
         printLexeme(token.first, token.second, outfile);
         token = getToken(infile);
         
@@ -244,7 +251,7 @@ void Qualifier(FILE* infile, ofstream& outfile){
     //     outfile << lineCount <<" |\tSyntax error. Expecting an integer or boolean. \nToken\t" << token.second << endl;
 	// 	std::exit(1);
 	// }
-    
+    return type;
 }
 
 
@@ -291,6 +298,11 @@ void Compound(FILE* infile, ofstream& outfile){
 
 		StatementList(infile, outfile);
 
+        gen_instr("JUMP",to_string(whileAddr));
+
+        if(token.second == "end"){ 
+            back_patch(Instr_address);
+        }
         if(token.second != "end"){
             outfile << lineCount <<" |\tSyntax error. Expecting 'end'. \nToken\t" << token.second << endl;
 	        std::exit(1);
@@ -315,7 +327,32 @@ void Assign(FILE* infile, ofstream& outfile){
         if (token.second == "="){
             printLexeme(token.first, token.second, outfile);
             token = getToken(infile);
+            std::pair<int, string> tempToken=token;
             Expression(infile, outfile);
+            if (find_type(save)==0){
+                if(valueType==2){
+                    if(find_type(tempToken)!=0){
+                        outfile << "invalid varaible type; integer expected" << std::endl;
+                        exit(1);
+                    }
+                }
+                else if(valueType!=0){
+					outfile << "invalid value type; integer expected" << std::endl;
+                    exit(1);
+                }
+            }
+            else if (find_type(save)==1){
+                if(valueType==2){
+                    if(find_type(tempToken)!=1){
+                        outfile << "invalid varaible type; boolean expected" << std::endl;
+                        exit(1);
+                    }
+                }
+                else if(valueType!=1){
+                    outfile << "invalid value type; \"true\"|\"false\" expected" << std::endl;
+                    exit(1);
+                }
+            }
             gen_instr("POPM", get_address(save,outfile));
 
             if (token.second == ";"){
@@ -363,7 +400,7 @@ void If(FILE* infile, ofstream& outfile){
                 Statement(infile, outfile);
 		        elseState(infile, outfile);
 
-                // back_patch(addr);
+                back_patch(Instr_address);
 
                 if(token.second == "endif"){
                     printLexeme(token.first, token.second, outfile);
@@ -415,6 +452,7 @@ void Put (FILE* infile, ofstream& outfile){
 
             if(token.first == 1){
 				printLexeme(token.first, token.second, outfile);
+                gen_instr("PUSHM", get_address(token, outfile));
                 token = getToken(infile);
 
                 if(token.second == ")"){
@@ -425,6 +463,7 @@ void Put (FILE* infile, ofstream& outfile){
                         printLexeme(token.first, token.second, outfile);
                         gen_instr("STDOUT","");
                         token = getToken(infile);
+
                     }
                     else{
 						outfile << lineCount << " |\tSyntax error. Expecting ';'. \nToken\t" << token.second << endl;
@@ -459,8 +498,9 @@ if (outputSwitch){
 
         if(token.second == "("){
             printLexeme(token.first, token.second, outfile);
-            gen_instr("STDIN","nil");
-            token = getToken(infile);
+            gen_instr("STDIN","");
+			token = getToken(infile);
+            gen_instr("POPM", get_address(token, outfile));
 
             if(token.first == 1){
                 printLexeme(token.first, token.second, outfile);
@@ -501,8 +541,8 @@ void While(FILE* infile, ofstream& outfile){
         outfile << "\t<While> ::=  while ( <Condition>  )  <Statement>  " << endl;
     }
     if (token.second=="while"){
-        int addr = Instr_address;
-        gen_instr("LABEL","nil");
+        whileAddr = Instr_address;
+        gen_instr("LABEL","");
         
         printLexeme(token.first, token.second, outfile);
         token = getToken(infile);
@@ -514,11 +554,15 @@ void While(FILE* infile, ofstream& outfile){
             if(token.second == ")"){
                 printLexeme(token.first, token.second, outfile);
                 token = getToken(infile);
-                
+
+
+
+
                 Statement(infile, outfile);
 
-                gen_instr("JUMP",to_string(addr));
-				// back_patch(addr);
+                // back_patch(Instr_address);
+                
+                
 			}
             else{
                 outfile << lineCount <<" |\tSyntax error. Expecting ')'. \nToken\t" << token.second << endl;
@@ -541,19 +585,19 @@ void Condition(FILE* infile, ofstream& outfile){
     Relop(infile, outfile);
     Expression(infile, outfile);
     if (relop_case==1){
-        gen_instr("LES","nil");
+        gen_instr("LES","");
         jumpstack.push(Instr_address);
-        gen_instr("JUMPZ","nil");
+        gen_instr("JUMPZ","");
     }
     else if( relop_case==2){
-		gen_instr("GRT", "nil");
+		gen_instr("GRT", "");
         jumpstack.push(Instr_address);
-        gen_instr("JUMPZ","nil");
+        gen_instr("JUMPZ","");
 	}
     else if( relop_case==3){
-        gen_instr("EQU", "nil");
+        gen_instr("EQU", "");
         jumpstack.push(Instr_address);
-        gen_instr("JUMPZ","nil");
+        gen_instr("JUMPZ","");
     }
 
 }
@@ -568,8 +612,6 @@ void Relop(FILE* infile, ofstream& outfile){
 
         OP = token;
 
-        token = getToken(infile);
-
         if (token.second=="<"){
             relop_case=1;
         }
@@ -579,6 +621,10 @@ void Relop(FILE* infile, ofstream& outfile){
         else if (token.second=="=="){
             relop_case=3;
         }
+
+        token = getToken(infile);
+
+        
     }
     else{
         outfile << lineCount <<" |\tSyntax error. Expecting  '== | > | < | /=  '. \nToken\t" << token.second << endl;
@@ -607,7 +653,7 @@ void ExpressionPrime(FILE* infile, ofstream& outfile){
 
         Term(infile, outfile);
 
-        gen_instr("ADD","nil");
+        gen_instr("ADD","");
 
 	    ExpressionPrime(infile, outfile);
     }
@@ -633,7 +679,7 @@ void TermPrime(FILE* infile, ofstream& outfile){
 
         Factor(infile, outfile);
 
-        gen_instr("MUL","nil");
+        gen_instr("MUL","");
 
 	    TermPrime(infile, outfile);
     }
@@ -667,6 +713,19 @@ void Primary(FILE* infile, ofstream& outfile){
         printLexeme(token.first, token.second, outfile);
         if(token.first == 1){
             gen_instr("PUSHM",get_address(token,outfile));
+            valueType=2;
+        }
+        else if (token.first == 2){
+            gen_instr("PUSHI",token.second);
+            valueType=0;
+        }
+        else if (token.second=="true"){
+			gen_instr("PUSHI","1");
+            valueType=1;
+        }
+        else if(token.second =="false"){
+            gen_instr("PUSHI","0");
+            valueType=1;
         }
         token = getToken(infile);
         
@@ -702,39 +761,29 @@ void gen_instr(string op, string oprnd){
     Instr_address++;
 }
 
-void add_symbol(std::pair<int, string> t, ofstream& outfile){
-    string type;
+int find_type(std::pair<int, string> t){
     for (int i=0; i<numOfSymbol ;i++){
         if (Symbol_table[i][0]==t.second){
-            outfile << "Error: Identifier already exist" << endl;
+            if (Symbol_table[i][2]=="integer"){
+                return 0;
+        }
+            else
+                return 1;
+        }
+    }
+    return 2;
+}
+
+void add_symbol(std::pair<int, string> t, string type, ofstream& outfile){
+    for (int i=0; i<numOfSymbol ;i++){
+        if (Symbol_table[i][0]==t.second){
+            print_symbolTable(outfile);
+            outfile << "Error: Identifier already exist: " << t.second << endl;
             exit(1);
         }
     }
     Symbol_table[numOfSymbol][0] = t.second;
 	Symbol_table[numOfSymbol][1] = to_string(memory_address);
-    switch (t.first){
-        case 0:
-        break;
-        case 1:
-        type = "identifier";
-        break;
-        case 2:
-        type = "integer";
-        break;
-        case 3:
-		type = "separator";
-		case 4:
-        type = "operator";
-        break;
-        case 5:
-        type = "keyword";
-        break;
-        case 6:
-        type = "unknown";
-        break;
-        default:
-	    type = "Error type";
-	}
     Symbol_table[numOfSymbol][2] = type;
     numOfSymbol++;
     memory_address++;
@@ -779,7 +828,8 @@ void print_instrTable(ofstream& outfile){
 
 void back_patch(int jump_addr){
 	int addr = jumpstack.top();
-	INSTR_TABLE[addr][2] = jump_addr;
+	jumpstack.pop();
+	INSTR_TABLE[addr][2] = to_string(jump_addr);
 }
 
 
